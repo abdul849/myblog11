@@ -31,8 +31,15 @@ public class PostController {
 
     @GetMapping
     public List<PostDto> getAllPosts(@RequestParam(name="PageNo",required=false,defaultValue="0") int pageNo,
-                                     @RequestParam(name="Pagesize",required=false,defaultValue="3") int pageSize){
-        List<PostDto> postDtos = postService.getAllPosts(pageNo,pageSize);
+                                     @RequestParam(name="Pagesize",required=false,defaultValue="3") int pageSize,
+                                     @RequestParam(name="sortBy",required=false,defaultValue="id") String SortBy,
+                                     @RequestParam(name="SortDir",required=false,defaultValue="id") String sortDir
+
+
+
+
+    ){
+        List<PostDto> postDtos = postService.getAllPosts(pageNo,pageSize,SortBy,sortDir);
         return postDtos;
     }
 }

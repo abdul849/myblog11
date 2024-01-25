@@ -4,21 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="posts")
+@Table(name="comments")
 @Entity
 @Data
-public class Post {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String title;
-    private String description;
-    private String content;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "post")
-    private List<Comment> comments;
+    private Long id;
+    private String text;
+    private String email;
+
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
 }

@@ -1,17 +1,19 @@
-package myblog.myblog.service;
+package myblog.myblog.service.impl;
 import myblog.myblog.entity.Post;
 import myblog.myblog.exception.ResourceNotFoundException;
 import myblog.myblog.payload.PostDto;
 import myblog.myblog.repository.PostRepository;
+import myblog.myblog.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
@@ -41,8 +43,10 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<PostDto> getAllPosts(int pageNo, int pageSize) {
-      Pageable pageable= PageRequest.of(pageNo,pageSize);
+    public List<PostDto> getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort=(sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+
+      Pageable pageable= PageRequest.of(pageNo,pageSize,sort);
         Page<Post> pagePost = postRepository.findAll(pageable);
         List<Post> posts = pagePost.getContent();
 
